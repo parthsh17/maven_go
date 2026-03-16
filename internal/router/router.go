@@ -22,11 +22,20 @@ func corsMiddleware(next http.Handler) http.Handler {
 	})
 }
 
-func NewRouter(s *store.Store, m *store.Metrics, p *worker.Pool) http.Handler {
+func NewRouter(s *store.Store, us *store.UserStore, m *store.Metrics, p *worker.Pool) http.Handler {
 	orderHandler := handlers.NewOrderHandler(s, m, p)
 	metricsHandler := handlers.NewMetricsHandler(m, p)
+	authHandler := handlers.NewAuthHandler(us)
 
 	mux := http.NewServeMux()
+
+	mux.HandleFunc("/auth/signup", func(w http.ResponseWriter, r *http.Request) {
+		authHandler.Signup(w, r)
+	})
+
+	mux.HandleFunc("/auth/login", func(w http.ResponseWriter, r *http.Request) {
+		authHandler.Login(w, r)
+	})
 
 	mux.HandleFunc("/orders", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {

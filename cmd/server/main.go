@@ -26,14 +26,16 @@ func main() {
 	log.Println("Starting Maven Order Lifecycle Platform...")
 
 	s := store.NewStore()
+	us := store.NewUserStore()
 	m := store.NewMetrics()
 
 	exec := executor.NewBasicExecutor(successRate)
 
 	pool := worker.NewPool(workerCount, bufferSize, s, m, exec)
 	pool.Start()
+	log.Printf("[CONCURRENCY] Worker pool started with %d concurrent goroutines", workerCount)
 
-	handler := router.NewRouter(s, m, pool)
+	handler := router.NewRouter(s, us, m, pool)
 
 	srv := &http.Server{
 		Addr:         addr,
