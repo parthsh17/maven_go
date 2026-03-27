@@ -36,7 +36,9 @@ export interface Metrics {
   completed_orders: number;
   failed_orders: number;
   worker_count: number;
-  [key: string]: number;
+  success_rate_ma?: number;
+  avg_slippage?: number;
+  [key: string]: number | string | undefined;
 }
 
 export interface CreateOrderPayload {

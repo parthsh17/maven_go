@@ -44,6 +44,18 @@ export function MetricsPage() {
             <StatCard label="Completed" value={metrics?.completed_orders ?? 0} icon="✅" color="#34d399" />
             <StatCard label="Failed" value={metrics?.failed_orders ?? 0} icon="❌" color="#f87171" />
             <StatCard label="Workers" value={metrics?.worker_count ?? 0} icon="⚙️" color="#60a5fa" />
+            <StatCard 
+              label="Success Rate (MA)" 
+              value={`${((metrics?.success_rate_ma as number ?? 0) * 100).toFixed(1)}%`} 
+              icon="📈" 
+              color="#8b5cf6" 
+            />
+            <StatCard 
+              label="Avg. Slippage" 
+              value={`${((metrics?.avg_slippage as number ?? 0) * 100).toFixed(4)}%`} 
+              icon="📉" 
+              color="#f43f5e" 
+            />
           </div>
         )}
 

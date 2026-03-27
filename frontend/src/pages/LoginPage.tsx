@@ -7,7 +7,7 @@ export function LoginPage() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
 
@@ -20,9 +20,24 @@ export function LoginPage() {
       return;
     }
 
-    // Mock authentication
-    localStorage.setItem('maven_auth', JSON.stringify({ email }));
-    navigate('/dashboard');
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Login failed');
+      }
+
+      const user = await response.json();
+      localStorage.setItem('maven_auth', JSON.stringify(user));
+      navigate('/dashboard');
+    } catch (err: any) {
+      setError(err.message);
+    }
   };
 
   return (
