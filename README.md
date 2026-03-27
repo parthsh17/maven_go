@@ -32,6 +32,10 @@
   - **Implementation**: Uses a **Circular Buffer** (slice of size 50) to store the outcomes of the last 50 orders. The system calculates a rolling average of successful vs. failed orders, providing a more accurate performance metric than a simple lifetime total.
 - **Regex-based Validation**: Uses the Regular Expression `^[A-Z]{3,5}/[A-Z]{3,5}$` to strictly validate currency pair formats (e.g., `BTC/USD`), ensuring data integrity at the entry point.
 
+### 6. Testing Concepts
+- **Unit Testing**: Added Unit testing to create robust backend and reliable service
+
+
 ---
 
 ## Go Implementation Portfolio
